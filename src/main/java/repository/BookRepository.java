@@ -1,5 +1,6 @@
 package repository;
 
+import entity.BookBackupEntity;
 import entity.BookEntity;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -9,7 +10,8 @@ import java.util.List;
 
 @Repository
 public interface BookRepository extends CrudRepository<BookEntity, Integer> {
-    List<BookEntity> findByAuthor(String author);
+    List<BookBackupEntity> findByAuthor(String author);
+
     @Query(value = "Select b from BookEntity b where b.name like ?1%")
     List<BookEntity> getBookNameStartWith(String name);
 

@@ -1,10 +1,13 @@
 package entity;
 
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 
 @Entity
-@Table
+@Table(name="book")
 public class BookEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -12,18 +15,17 @@ public class BookEntity {
     private int id;
     @Column (name="name")
     private String name;
+
     @Column (name="author")
     private String author;
-    @Column (name="category")
-    private String category;
-    @Column (name="isbn")
-    private String isbn;
-    @Column (name="price")
-    private double price;
-    @Column (name="numberOfPage")
-    private int numberOfPage;
-    @Column (name="publishDate")
-    private LocalDate publishDate;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "categoryId")
+    private CategoryEntity category;
+
+    @OneToOne(cascade = {CascadeType.ALL})
+    @PrimaryKeyJoinColumn
+    private BookDetailsEntity bookDetails;
 
     public BookEntity() {
     }
@@ -52,48 +54,28 @@ public class BookEntity {
         this.author = author;
     }
 
-    public String getCategory() {
+    public CategoryEntity getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(CategoryEntity category) {
         this.category = category;
     }
 
-    public String getIsbn() {
-        return isbn;
+    public BookDetailsEntity getBookDetails() {
+        return bookDetails;
     }
 
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
+    public void setBookDetails(BookDetailsEntity bookDetails) {
+        this.bookDetails = bookDetails;
     }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public int getNumberOfPage() {
-        return numberOfPage;
-    }
-
-    public void setNumberOfPage(int numberOfPage) {
-        this.numberOfPage = numberOfPage;
-    }
-
-    public LocalDate getPublishDate() {
-        return publishDate;
-    }
-
-    public void setPublishDate(LocalDate publishDate) {
-        this.publishDate = publishDate;
-    }
-
     @Override
     public String toString() {
-        return "BookEntity{ id = "+id + ", name = "+ name +"}";
+
+        return "BookEntity {id = "+id + "," +
+                "name = "+ name +"," +
+                "author = "+ author  + ","+
+                "category: " + category.toString() + ","+
+                "bookdetails: " + bookDetails.toString() + "}";
     }
 }

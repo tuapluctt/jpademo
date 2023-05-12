@@ -19,17 +19,18 @@ public class Main {
     static BookRepository bookRepo = applicationContext.getBean("bookRepository", BookRepository.class);
     static CategoryRepository categoryRepository = applicationContext.getBean("categoryRepository", CategoryRepository.class);
     public static void main(String[] args) {
+
        // createNewBookEntityWithNewCategory();
-      //  findAllUsingQuery();
+       //findAllUsingQuery();
 
         // Sample for FetchType.
-      //  findAllCategory();
+        findAllCategory();
 
         // Sample for FetchType.LAZY
         //findAllBookFromCategory();
       //  findAllBook();
       //  updateBook(3);
-        createNewBookEntity();
+    //    createNewBookEntity();
     }
 
    private static CategoryEntity createNewCategory(){

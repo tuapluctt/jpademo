@@ -20,7 +20,8 @@ public class MainTestTransaction {
         // Transfer money with platform transaction management
       //  accountService.transferMoney(1,2,50);
         // Transfer money using annotion
-        accountService.transferMoneyUsingAnnotion(1,2,60);
+       // accountService.transferMoneyUsingAnnotion(1,2,60);
+        accountService.deleteAccLook();
 
     }
     //

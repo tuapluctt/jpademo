@@ -15,6 +15,7 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import service.AccountService;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
@@ -29,7 +30,7 @@ public class JPAConfig {
     public DataSource dataSource() {
         final DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://127.0.0.1:3307/sys?characterEncoding=UTF-8");
+        dataSource.setUrl("jdbc:mysql://127.0.0.1:3307/jpa?characterEncoding=UTF-8");
         dataSource.setUsername("root");
         dataSource.setPassword("admin");
         return dataSource;
@@ -48,7 +49,7 @@ public class JPAConfig {
 
     final Properties additionalProperties() {
         final Properties hibernateProperties = new Properties();
-        hibernateProperties.setProperty("hibernate.hbm2ddl.auto", "update");
+        hibernateProperties.setProperty("hibernate.hbm2ddl.auto", "create");//update
         hibernateProperties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5InnoDBDialect");
         hibernateProperties.setProperty("hibernate.show_sql", "true");
         hibernateProperties.setProperty("hibernate.format_sql", "true");
@@ -67,6 +68,18 @@ public class JPAConfig {
     public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
         return new PersistenceExceptionTranslationPostProcessor();
     }
-    
-    
+
+    // Set bean AccountService with platform transaction manager
+    @Bean
+    public AccountService accountService(JpaTransactionManager jpaTransactionManager){
+        AccountService accountService = new AccountService(jpaTransactionManager);
+        return accountService;
+    }
+
+    // Set bean AccountService using Annatation
+    @Bean
+    public AccountService accountService(){
+        AccountService accountService = new AccountService();
+        return accountService;
+    }
 }

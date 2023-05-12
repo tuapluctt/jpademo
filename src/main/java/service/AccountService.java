@@ -22,6 +22,8 @@ public class AccountService {
     }
     public AccountService(){
     }
+
+
     public void transferMoney(int sourceAccountId, int targetAccountId, double amount){
         TransactionDefinition definition = new DefaultTransactionDefinition();
         TransactionStatus status = transactionManager.getTransaction(definition);
@@ -52,8 +54,8 @@ public class AccountService {
         }
     }
 
-    //@Transactional(rollbackFor = Exception.class)
-    @Transactional
+    @Transactional(rollbackFor = Exception.class, noRollbackFor = NullPointerException.class)
+   // @Transactional
     public void transferMoneyUsingAnnotion(int sourceAccountId, int targetAccountId, double amount) throws Exception {
         AccountEntity sourceAcc = accountRepository.findById(sourceAccountId).get();
         AccountEntity targetAcc = accountRepository.findById(targetAccountId).get();
@@ -72,4 +74,15 @@ public class AccountService {
         // save to DB
         accountRepository.save(targetAcc);
     }
+    //@Transactional(noRollbackFor = NullPointerException.class)
+    public void updateAccLook(){
+        //balaal
+        accountRepository.updateAccLook();
+    }
+   // @Transactional(rollbackFor = NullPointerException.class)
+    public void deleteAccLook(){
+        //balaal
+        accountRepository.deleteAccByBalanc();
+    }
+
 }
